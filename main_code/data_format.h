@@ -73,7 +73,7 @@ struct fmt_chunk
 {
 	unsigned int fmt_id;/*const*/
 	unsigned int fmt_size;/*const*/
-	wav_meta wav_m;
+	struct wav_meta wav_m;
 };
 
 struct data_chunk
@@ -85,9 +85,9 @@ struct data_chunk
 
 struct wave_file
 {
-	riff_chunk *riff_head;
-	fmt_chunk *fmt_head;
-	data_chunk *pcm_data;
+	struct riff_chunk *riff_head;
+	struct fmt_chunk *fmt_head;
+	struct data_chunk *pcm_data;
 };
 
 #endif

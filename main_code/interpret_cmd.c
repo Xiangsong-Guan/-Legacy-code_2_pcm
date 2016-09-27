@@ -9,8 +9,8 @@ enum opt_sample_ps opt_sps;
 enum opt_bits_per_sample opt_bps;
 
 /*necessary parameters*/
-static char *i_path;
-static char *o_path;
+static const char *i_path;
+static const char *o_path;
 
 /*file*/
 FILE *i_file;
@@ -18,7 +18,7 @@ FILE *o_file;
 
 static void usage()
 {
-	puts("########## Usage for 0.1.0 ver. | writen by Xiangsong Guan ##########");
+	puts("---------- Usage for 0.1.0 ver. | writen by Xiangsong Guan ----------");
 	puts("Encode your source code file to a pcm codec wave file, just for fun.");
 	puts("code_2_pcm [options] input_file_path output_file_path");
 	puts("options:");
@@ -41,15 +41,23 @@ static void usage()
 	return;
 }
 
-/*check the cmd is valid or not, return 0 if no problems.*/
+/*check the cmd is valid or not, return 0 if no problems. self print.*/
 static int parameter_check(const int parameters_cnt, const char **parameters)
 {
 	/*verify cmd via number of parameters*/
 	if(parameters_cnt < 3)
 	{
-		puts("Incorrect parameters!");
-		usage();
-		return 1;
+		if(parameters[1][1] != 'h')
+		{
+			puts("Incorrect parameters!");
+			usage();
+			return 1;
+		}
+		else
+		{
+			usage();
+			return 0;
+		}
 	}
 
 	i_path = parameters[parameters_cnt - 2];
@@ -59,7 +67,7 @@ static int parameter_check(const int parameters_cnt, const char **parameters)
 	i_file = fopen(i_path, "rt");
 	if(i_file == NULL)
 	{
-		perror();
+		perror("Input file: ");
 		return 1;
 	}
 
@@ -69,17 +77,20 @@ static int parameter_check(const int parameters_cnt, const char **parameters)
 	{
 		fclose(o_file);
 		puts("Output file is already existed! Overwrite? [y/n]");
+		/* debug
 		if(getchar() != 'y')
 		{
 			fclose(i_file);
 			puts("Abort.");
 			return 1;
 		}
+		*/
+		puts("debug: y");
 	}
 	o_file = fopen(o_path, "wb");
 	if(o_file == NULL)
 	{
-		perror();
+		perror("Output file: ");
 		fclose(i_file);
 		return 1;
 	}
@@ -87,10 +98,10 @@ static int parameter_check(const int parameters_cnt, const char **parameters)
 	return 0;
 }
 
-/*set the options according to cmd parameters, return 0 if no problems.*/
+/*set the options according to cmd parameters, return 0 if no problems. self print.*/
 int interpret_parameter(const int parameters_cnt, const char **parameters)
 {
-	char *pc;
+	const char *pc;
 	char opt;
 	int i;
 
@@ -106,7 +117,7 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 	}
 
 	/*interpret parameters*/
-	for(i = 1; i < (parameters_cnt - 3); i++)
+	for(i = 1; i <= (parameters_cnt - 3); i++)
 	{
 		pc = parameters[i];
 
@@ -131,7 +142,7 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 			else
 			{
 				puts("ERROR! Invalid parameters!");
-				usage()
+				usage();
 				return 1;
 			}
 		}
@@ -140,8 +151,9 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 			switch(opt)
 			{
 				case HELP:
+					puts("Uninvalid input to -h! There should not with anything else!");
 					usage();
-					break;
+					return 1;
 				case CHANNELS:
 					switch(pc[0])
 					{
@@ -153,7 +165,7 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 							break;
 						default:
 							puts("Wrong channels option!");
-							usage()
+							usage();
 							return 1;
 					}
 					break;
