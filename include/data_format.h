@@ -35,9 +35,9 @@ struct data_chunk
 
 struct wave_file
 {
-	struct riff_chunk *riff_head;
-	struct fmt_chunk *fmt_head;
-	struct data_chunk *pcm_data;
+	struct riff_chunk riff_head;
+	struct fmt_chunk fmt_head;
+	struct data_chunk pcm_data;
 };
 
 #endif
