@@ -1,5 +1,5 @@
-#include "data_format.h"
-#include "interpret_cmd.h"
+#include <enums.h>
+#include <interpret_cmd.h>
 #include <stdio.h>
 
 /*optional parameters*/
@@ -17,6 +17,8 @@ int main(int argc, char **argv)
 	{
 		return 1;
 	}
+
+
 
 	fclose(i_file);
 	fclose(o_file);
