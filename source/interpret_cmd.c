@@ -3,6 +3,19 @@
 #include <errno.h>
 #include <string.h>
 
+/*some macro to save lines*/
+#define FUNC_USAGE_AND_RETURN(msg) \
+{                                  \
+	usage(msg);                      \
+	return 1;                        \
+}
+
+#define FUNC_ASS_AND_BREAK(t, v) \
+{                                \
+	(t) = (v);                     \
+	break;                         \
+}
+
 /*optional parameters*/
 enum opt_channels opt_ch;
 enum opt_sample_ps opt_sps;
@@ -16,8 +29,9 @@ static const char *o_path;
 FILE *i_file;
 FILE *o_file;
 
-static void usage()
+static void usage(const char *msg)
 {
+	puts(msg);
 	puts("---------- Usage for 0.1.0 ver. | writen by Xiangsong Guan ----------");
 	puts("Encode your source code file to a pcm codec wave file, just for fun.");
 	puts("code_2_pcm [options] input_file_path output_file_path");
@@ -47,15 +61,13 @@ static int parameter_check(const int parameters_cnt, const char **parameters)
 	/*verify cmd via number of parameters*/
 	if(parameters_cnt < 3)
 	{
-		if(parameters[1][1] != 'h')
+		if(parameters[1][1] != 'h' || parameters_cnt != 2 || parameters[1][0] != '-')
 		{
-			puts("Incorrect parameters!");
-			usage();
-			return 1;
+			FUNC_USAGE_AND_RETURN("Incorrect parameters!");
 		}
 		else
 		{
-			usage();
+			usage("");
 			return 0;
 		}
 	}
@@ -131,19 +143,14 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 					case CHANNELS:
 					case BITS_PER_SAMPLE:
 					case SAMPLE_PS:
-						opt = pc[1];
-						break;
+						FUNC_ASS_AND_BREAK(opt, pc[1]);
 					default:
-						puts("ERROR! Invalid option.");
-						usage();
-						return 1;
+						FUNC_USAGE_AND_RETURN("ERROR! Invalid option.");
 				}
 			}
 			else
 			{
-				puts("ERROR! Invalid parameters!");
-				usage();
-				return 1;
+				FUNC_USAGE_AND_RETURN("ERROR! Invalid parameters!");
 			}
 		}
 		else
@@ -151,66 +158,47 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 			switch(opt)
 			{
 				case HELP:
-					puts("Uninvalid input to -h! There should not with anything else!");
-					usage();
-					return 1;
+					FUNC_USAGE_AND_RETURN("Uninvalid input to -h! There should not with anything else!");
 				case CHANNELS:
 					switch(pc[0])
 					{
 						case OPT_STEREO:
-							opt_ch = stereo;
-							break;
+							FUNC_ASS_AND_BREAK(opt_ch, stereo);
 						case OPT_MONO:
-							opt_ch = mono;
-							break;
+							FUNC_ASS_AND_BREAK(opt_ch, mono);
 						default:
-							puts("Wrong channels option!");
-							usage();
-							return 1;
+							FUNC_USAGE_AND_RETURN("Wrong channels option!");
 					}
 					break;
 				case SAMPLE_PS:
 					switch(pc[0])
 					{
 						case OPT_TELEPHONE:
-							opt_sps = telephone;
-							break;
+							FUNC_ASS_AND_BREAK(opt_sps, telephone);
 						case OPT_RADIO:
-							opt_sps = radio;
-							break;
+							FUNC_ASS_AND_BREAK(opt_sps, radio);
 						case OPT_CD:
-							opt_sps = cd;
-							break;
+							FUNC_ASS_AND_BREAK(opt_sps, cd);
 						case OPT_DVD:
-							opt_sps = dvd;
-							break;
+							FUNC_ASS_AND_BREAK(opt_sps, dvd);
 						default:
-							puts("Wrong sample per second option!");
-							usage();
-							return 1;
+							FUNC_USAGE_AND_RETURN("Wrong sample per second option!");
 					}
 					break;
 				case BITS_PER_SAMPLE:
 					switch(pc[0])
 					{
 						case OPT_LOW:
-							opt_bps = low;
-							break;
+							FUNC_ASS_AND_BREAK(opt_bps, low);
 						case OPT_NOMAL:
-							opt_bps = nomal;
-							break;
+							FUNC_ASS_AND_BREAK(opt_bps, nomal);
 						case OPT_HIGH:
-							opt_bps = high;
-							break;
+							FUNC_ASS_AND_BREAK(opt_bps, high);
 						default:
-							puts("Wrong bits per sample option!");
-							usage();
-							return 1;
+							FUNC_USAGE_AND_RETURN("Wrong bits per sample option!");
 					}
 				default:
-					puts("Wrong option!");
-					usage();
-					return 1;
+					FUNC_USAGE_AND_RETURN("Wrong option!");
 			}
 			opt = 0x00;
 		}
@@ -218,9 +206,7 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 
 	if(opt != 0x00)
 	{
-		puts("ERROR! Lack of some parameters!");
-		usage();
-		return 1;
+		FUNC_USAGE_AND_RETURN("ERROR! Lack of some parameters!");
 	}
 	return 0;
 }
