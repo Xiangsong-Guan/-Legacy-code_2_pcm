@@ -7,8 +7,10 @@ extern enum opt_sample_ps opt_sps;
 extern enum opt_bits_per_sample opt_bps;
 
 /*format the target file's header*/
-int format_header(struct wave_file *pwf)
+int format_header(struct wave_file *pwf, unsigned int i_size)
 {
+	/*parameters check*/
+
 	/*some common parameters*/
 	pwf->riff_head.riff_id = RIFF_ID;
 	pwf->riff_head.format = FORMAT;
@@ -23,7 +25,10 @@ int format_header(struct wave_file *pwf)
 	pwf->fmt_head.wav_m.bits_per_sample = opt_bps;
 
 	/*some computered parameters*/
-
+	pwf->riff_head.riff_size = i_size + 36U;/*plus wave file's header exclude of first 8 bytes*/
+	pwf->fmt_head.wav_m.bytes_ps = (pwf->fmt_head.wav_m.bits_per_sample / 8U) * pwf->fmt_head.wav_m.sample_ps * pwf->fmt_head.wav_m.channels;/*Regulations*/
+	pwf->fmt_head.wav_m.block_align = pwf->fmt_head.wav_m.channels * (pwf->fmt_head.wav_m.bits_per_sample / 8U);/*Regulations*/
+	pwf->pcm_data.data_size = i_size;
 
 	return 0;
 }

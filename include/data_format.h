@@ -5,7 +5,7 @@
 struct riff_chunk
 {
 	unsigned int riff_id;/*const*/
-	unsigned int riff_size;/*after compute*/
+	unsigned int riff_size;/*after compute: 36 + input_size*/
 	unsigned int format;/*const*/
 };
 
@@ -14,8 +14,8 @@ struct wav_meta
 	unsigned short format_tag;/*const*/
 	unsigned short channels;/*option*/
 	unsigned int sample_ps;/*option*/
-	unsigned int bytes_ps;/*after compute*/
-	unsigned short block_align;/*must be product of channels and bits_per_sample divided by 8*/
+	unsigned int bytes_ps;/*after compute: channels * sample_ps * bytes_per_sample*/
+	unsigned short block_align;/*after compute: must be product of channels and bits_per_sample divided by 8*/
 	unsigned short bits_per_sample;/*option*/
 };
 
@@ -29,7 +29,7 @@ struct fmt_chunk
 struct data_chunk
 {
 	unsigned int data_id;/*const*/
-	unsigned int data_size;/*after compute*/
+	unsigned int data_size;/*after compute: input_size*/
 	unsigned char *data;
 };
 

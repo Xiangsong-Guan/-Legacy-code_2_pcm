@@ -32,7 +32,7 @@ FILE *o_file;
 static void usage(const char *msg)
 {
 	puts(msg);
-	puts("---------- Usage for 0.1.0 ver. | writen by Xiangsong Guan ----------");
+	puts("---------------- Usage for 0.1.0 ver. | writen by Xiangsong Guan ----------------");
 	puts("Encode your source code file to a pcm codec wave file, just for fun.");
 	puts("code_2_pcm [options] input_file_path output_file_path");
 	puts("options:");
@@ -76,7 +76,7 @@ static int parameter_check(const int parameters_cnt, const char **parameters)
 	o_path = parameters[parameters_cnt - 1];
 
 	/*input file is readble?*/
-	i_file = fopen(i_path, "rt");
+	i_file = fopen(i_path, "rb");
 	if(i_file == NULL)
 	{
 		perror("Input file: ");
@@ -89,7 +89,7 @@ static int parameter_check(const int parameters_cnt, const char **parameters)
 	{
 		fclose(o_file);
 		puts("Output file is already existed! Overwrite? [y/n]");
-		/* debug
+		/* comment cause to debug, for release should be un-commented.
 		if(getchar() != 'y')
 		{
 			fclose(i_file);
