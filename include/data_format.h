@@ -30,7 +30,6 @@ struct data_chunk
 {
 	unsigned int data_id;/*const*/
 	unsigned int data_size;/*after compute: input_size*/
-	unsigned char *data;
 };
 
 struct wave_file

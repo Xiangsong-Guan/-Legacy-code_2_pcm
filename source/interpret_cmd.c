@@ -1,6 +1,5 @@
 #include <defines.h>
 #include <stdio.h>
-#include <errno.h>
 #include <string.h>
 
 /*some macro to save lines*/
@@ -40,18 +39,18 @@ static void usage(const char *msg)
 	puts("  -c  decide the number of Sound Channel.");
 	puts("      m(ono)      -> single sound channel.");
 	puts("      s(tereo)    -> output file will contain left & right sound channel.");
-	puts("      [default]when miss this option, the default value 'stereo' will be applied.");
+	puts("      [default]when miss this option, the default value 'mono' will be applied.");
 	puts("  -s  decide the sample per second.");
 	puts("      t(elephone) -> 8000Hz which is used by Telecommunication.");
 	puts("      r(adio)     -> 22050Hz which is used by Radio broadcasting.");
 	puts("      c(d)        -> 44100Hz which is used by CD quality.");
 	puts("      d(vd)       -> 48000Hz which is used by High quality DVD and Digital TV.");
-	puts("      [default]when miss this option, the default value 'cd' will be applied.");
+	puts("      [default]when miss this option, the default value 'telephone' will be applied.");
 	puts("  -b  decide the bits per sample.");
 	puts("      l(ow)       -> 8bits which make low Fidelity.");
 	puts("      n(omal)     -> 16bits which is widly used in music & video.");
 	puts("      h(igh)      -> 24bits which is used to make high Fidelity.");
-	puts("      [default]when miss this option, the default value 'nomal' will be applied.");
+	puts("      [default]when miss this option, the default value 'low' will be applied.");
 	return;
 }
 
@@ -89,15 +88,12 @@ static int parameter_check(const int parameters_cnt, const char **parameters)
 	{
 		fclose(o_file);
 		puts("Output file is already existed! Overwrite? [y/n]");
-		/* comment cause to debug, for release should be un-commented.
 		if(getchar() != 'y')
 		{
 			fclose(i_file);
 			puts("Abort.");
 			return 1;
 		}
-		*/
-		puts("debug: y");
 	}
 	o_file = fopen(o_path, "wb");
 	if(o_file == NULL)
@@ -117,9 +113,9 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 	char opt;
 	int i;
 
-	opt_ch = stereo;
-	opt_sps = cd;
-	opt_bps = nomal;
+	opt_ch = mono;
+	opt_sps = telephone;
+	opt_bps = low;
 
 	opt = 0x00;
 
