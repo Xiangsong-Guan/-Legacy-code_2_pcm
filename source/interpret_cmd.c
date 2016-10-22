@@ -77,8 +77,7 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 	{
 		if(i_path[1] == 'h')
 		{
-			usage("");
-			return 0;
+			FUNC_USAGE_AND_RETURN("");
 		}
 	}
 
