@@ -1,6 +1,5 @@
 #include <data_format.h>
 #include <stdio.h>
-#include <limits.h>
 #include <stdlib.h>
 
 /*set the options according to cmd parameters, return 0 if no problems. self print.*/

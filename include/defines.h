@@ -28,6 +28,10 @@
 #define SAMPLE_PS 's'
 #define BITS_PER_SAMPLE 'b'
 #define HELP 'h'
+#define OUTPUT_PATH 'o'
+
+/*default output file (wave file)'s path*/
+#define DEFAULT_OUTPUT_PATH "o.wav"
 
 /*some parameter in options*/
 enum opt_channels
