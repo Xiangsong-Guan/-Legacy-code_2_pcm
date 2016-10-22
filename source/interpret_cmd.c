@@ -73,6 +73,14 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 	}
 
 	i_path = parameters[parameters_cnt - 1];
+	if(i_path[0] == '-')
+	{
+		if(i_path[1] == 'h')
+		{
+			usage("");
+			return 0;
+		}
+	}
 
 	/*input file is readable?*/
 	i_file = fopen(i_path, "rb");
