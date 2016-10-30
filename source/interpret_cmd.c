@@ -1,4 +1,5 @@
 #include <defines.h>
+#include <info.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -27,9 +28,9 @@ FILE *o_file;
 static void usage(const char *msg)
 {
 	puts(msg);
-	puts("---------------- Usage for 0.1.0 ver. | writen by Xiangsong Guan ----------------");
+	puts("---------------- Usage for " INFO_VERSION " ver. | writen by " INFO_AUTHOR " ----------------");
 	puts("Encode your source code file to a pcm codec wave file, just for fun.");
-	puts("code_2_pcm [options] input_file_path");
+	puts(INFO_TILTE " [options] input_file_path");
 	puts("options:");
 	puts("  -h  print this usage.");
 	puts("  -o  output file (wave file)'s path.");
@@ -49,6 +50,7 @@ static void usage(const char *msg)
 	puts("      n(omal)     -> 16bits which is widly used in music & video.");
 	puts("      h(igh)      -> 24bits which is used to make high Fidelity.");
 	puts("      [default]when miss this option, the default value 'low' will be applied.");
+	puts(INFO_TIME);
 	return;
 }
 

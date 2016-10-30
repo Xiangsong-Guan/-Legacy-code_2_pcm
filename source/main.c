@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*verify*/
+const char *verify = "KaSiKoi KaWai eRiCHi! code_2_pcm Xiangsong Guan 2016 qiu ver 0.1.1";
+
 /*set the options according to cmd parameters, return 0 if no problems. self print.*/
 extern int interpret_parameter(const int parameters_cnt, const char **parameters);
 /*format the target file's header*/
