@@ -29,7 +29,7 @@ unsigned int format_header(struct wave_file *pwf, unsigned int i_size)
 	pwf->riff_head.riff_size = i_size + 36U;/*plus wave file's header exclude of first 8 bytes*/
 	pwf->fmt_head.wav_m.bytes_ps = (opt_bps / 8U) * opt_sps * opt_ch;/*Regulations*/
 	pwf->fmt_head.wav_m.block_align = opt_ch * (opt_bps / 8U);/*Regulations*/
-	pwf->pcm_data.data_size = i_size;
+	pwf->pcm_data.data_size = i_size + pwf->fmt_head.wav_m.block_align - (i_size % pwf->fmt_head.wav_m.block_align);
 
 	return pwf->fmt_head.wav_m.block_align - (i_size % pwf->fmt_head.wav_m.block_align);
 }
