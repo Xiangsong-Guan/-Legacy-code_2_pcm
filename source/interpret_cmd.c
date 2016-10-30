@@ -1,20 +1,7 @@
-#include <defines.h>
-#include <info.h>
 #include <stdio.h>
 #include <string.h>
-
-/*some macro to save lines*/
-#define FUNC_USAGE_AND_RETURN(msg) \
-{                                  \
-	usage(msg);                      \
-	return 1;                        \
-}
-
-#define FUNC_ASS_AND_BREAK(t, v) \
-{                                \
-	(t) = (v);                     \
-	break;                         \
-}
+#include <include/macro_defines.h>
+#include <include/wav_options_value.h>
 
 /*optional parameters*/
 enum opt_channels opt_ch;
@@ -30,9 +17,10 @@ static void usage(const char *msg)
 	puts(msg);
 	puts("---------------- Usage for " INFO_VERSION " ver. | writen by " INFO_AUTHOR " ----------------");
 	puts("Encode your source code file to a pcm codec wave file, just for fun.");
-	puts(INFO_TILTE " [options] input_file_path");
+	puts(INFO_TILTE " [options] <input_file_path | -h | -v>");
 	puts("options:");
 	puts("  -h  print this usage.");
+	puts("  -v  print version infomation.");
 	puts("  -o  output file (wave file)'s path.");
 	puts("      [default]when miss this option, the default value 'o.wav' will be applied.");
 	puts("  -c  decide the number of Sound Channel.");
@@ -54,44 +42,15 @@ static void usage(const char *msg)
 	return;
 }
 
-/*set the options according to cmd parameters, return 0 if no problems. self print.*/
-int interpret_parameter(const int parameters_cnt, const char **parameters)
+/*return 0 if no problems. self print.*/
+static int assgin_options(const int parameters_cnt, const char **parameters, const char *o_path)
 {
-	const char *pc, *o_path, *i_path;
 	char opt;
 	int i;
-
-	opt_ch = mono;
-	opt_sps = telephone;
-	opt_bps = low;
-	o_path = DEFAULT_OUTPUT_PATH;
+	const char *pc;
 
 	opt = 0x00;
 
-	/*check the cmd is valid or not*/
-	if(parameters_cnt == 1)
-	{
-		FUNC_USAGE_AND_RETURN("");
-	}
-
-	i_path = parameters[parameters_cnt - 1];
-	if(i_path[0] == '-')
-	{
-		if(i_path[1] == 'h')
-		{
-			FUNC_USAGE_AND_RETURN("");
-		}
-	}
-
-	/*input file is readable?*/
-	i_file = fopen(i_path, "rb");
-	if(i_file == NULL)
-	{
-		perror("Input file: ");
-		return 1;
-	}
-
-	/*interpret parameters*/
 	for(i = 1; i <= (parameters_cnt - 2); i++)
 	{
 		pc = parameters[i];
@@ -102,7 +61,6 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 			{
 				switch(pc[1])
 				{
-					case HELP:
 					case CHANNELS:
 					case BITS_PER_SAMPLE:
 					case SAMPLE_PS:
@@ -121,8 +79,6 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 		{
 			switch(opt)
 			{
-				case HELP:
-					FUNC_USAGE_AND_RETURN("Uninvalid input to -h! There should not with anything else!");
 				case CHANNELS:
 					switch(pc[0])
 					{
@@ -177,26 +133,73 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 	}
 	else
 	{
-		/*output file is already existed? writable?*/
-		o_file = fopen(o_path, "rb");
-		if(o_file != NULL)
+		return SUCCESS;
+	}
+}
+
+/*set the options according to cmd parameters, return 0 if no problems. self print.*/
+int interpret_parameter(const int parameters_cnt, const char **parameters)
+{
+	const char *o_path, *i_path;
+
+	opt_ch = mono;
+	opt_sps = telephone;
+	opt_bps = low;
+	o_path = DEFAULT_OUTPUT_PATH;
+
+	/*check the cmd is valid or not*/
+	if(parameters_cnt == 1)
+	{
+		FUNC_USAGE_AND_RETURN("");
+	}
+
+	i_path = parameters[parameters_cnt - 1];
+	if(i_path[0] == '-')
+	{
+		if(i_path[1] == 'h')
 		{
-			fclose(o_file);
-			puts("Output file is already existed! Overwrite? [y/n]");
-			if(getchar() != 'y')
-			{
-				fclose(i_file);
-				puts("Abort.");
-				return 1;
-			}
+			usage("");
+			return SKIP_TO_END;
 		}
-		o_file = fopen(o_path, "wb");
-		if(o_file == NULL)
+		else if(i_path[1] == 'v')
 		{
-			perror("Output file: ");
-			fclose(i_file);
-			return 1;
+			puts(INFO_VERSION);
+			return SKIP_TO_END;
 		}
 	}
-	return 0;
+
+	/*input file is readable?*/
+	i_file = fopen(i_path, "rb");
+	if(i_file == NULL)
+	{
+		perror("Input file: ");
+		return ERROR;
+	}
+
+	if(assgin_options(parameters_cnt, parameters, o_path) == ERROR)
+	{
+		return ERROR;
+	}
+
+	/*output file is already existed? writable?*/
+	o_file = fopen(o_path, "rb");
+	if (o_file != NULL)
+	{
+	  fclose(o_file);
+	  puts("Output file is already existed! Overwrite? [y/n]");
+	  if (getchar() != 'y')
+	  {
+	    fclose(i_file);
+	    puts("Abort.");
+	    return ERROR;
+	  }
+	}
+	o_file = fopen(o_path, "wb");
+	if (o_file == NULL)
+	{
+	  perror("Output file: ");
+	  fclose(i_file);
+	  return ERROR;
+	}
+	return SUCCESS;
 }

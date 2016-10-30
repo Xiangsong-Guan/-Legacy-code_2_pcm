@@ -1,35 +1,37 @@
 #ifndef DATA_FORMAT_H
 #define DATA_FORMAT_H
 
+#include <stdint.h>
+
 /*data format for wave file*/
 struct riff_chunk
 {
-	unsigned int riff_id;/*const*/
-	unsigned int riff_size;/*after compute: 36 + input_size*/
-	unsigned int format;/*const*/
+	uint32_t riff_id;/*const*/
+	uint32_t riff_size;/*after compute: 36 + input_size*/
+	uint32_t format;/*const*/
 };
 
-struct wav_meta
+struct wave_meta
 {
-	unsigned short format_tag;/*const*/
-	unsigned short channels;/*option*/
-	unsigned int sample_ps;/*option*/
-	unsigned int bytes_ps;/*after compute: channels * sample_ps * bytes_per_sample*/
-	unsigned short block_align;/*after compute: must be product of channels and bits_per_sample divided by 8*/
-	unsigned short bits_per_sample;/*option*/
+	uint16_t format_tag;/*const*/
+	uint16_t channels;/*option*/
+	uint32_t sample_ps;/*option*/
+	uint32_t bytes_ps;/*after compute: channels * sample_ps * bytes_per_sample*/
+	uint16_t block_align;/*after compute: must be product of channels and bits_per_sample divided by 8*/
+	uint16_t bits_per_sample;/*option*/
 };
 
 struct fmt_chunk
 {
-	unsigned int fmt_id;/*const*/
-	unsigned int fmt_size;/*const*/
-	struct wav_meta wav_m;
+	uint32_t fmt_id;/*const*/
+	uint32_t fmt_size;/*const*/
+	struct wave_meta wav_m;
 };
 
 struct data_chunk
 {
-	unsigned int data_id;/*const*/
-	unsigned int data_size;/*after compute: input_size*/
+	uint32_t data_id;/*const*/
+	uint32_t data_size;/*after compute: input_size*/
 };
 
 struct wave_file

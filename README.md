@@ -4,4 +4,4 @@
 
 # 环境
 
-minGW-32 / x86
+minGW-w64 / win-x86_64 AMD64
