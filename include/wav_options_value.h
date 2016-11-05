@@ -1,5 +1,5 @@
 #ifndef WAV_OPTIONS_VALUE_H
-#define WAV_OPTIONS_VALUE_H
+#define WAV_OPTIONS_VALUE_H 1
 
 /*some parameter in options*/
 enum opt_channels

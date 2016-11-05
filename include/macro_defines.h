@@ -1,5 +1,5 @@
 #ifndef WAV_OPTIONS_NAME_H
-#define WAV_OPTIONS_NAME_H
+#define WAV_OPTIONS_NAME_H 1
 
 /**********************************
 

@@ -1,5 +1,7 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <include/macro_defines.h>
+#include <include/data_format.h>
 #include <api/fill_file.h>
 #include <api/interpret_cmd.h>
 
