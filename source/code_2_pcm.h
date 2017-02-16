@@ -6,7 +6,7 @@
 #define INFO_TILTE   "code_2_pcm"
 #define INFO_TIME    "2016 qiu"
 #define INFO_VERIFY  "KaSiKoi KaWai eRiCHi!"
-#define INFO_VERSION "0.1.1"
+#define INFO_VERSION "0.2.1"
 
 /*return msg*/
 #define SUCCESS 0
