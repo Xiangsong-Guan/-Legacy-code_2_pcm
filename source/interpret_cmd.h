@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <include/wav_options_value.h>
+#include "code_2_pcm.h"
 
 /*set the options according to cmd parameters, return 0 if no problems. self print.*/
 extern int interpret_parameter(const int parameters_cnt, const char **parameters);

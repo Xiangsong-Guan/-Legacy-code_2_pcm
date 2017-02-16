@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <include/macro_defines.h>
-#include <include/wav_options_value.h>
+#include "code_2_pcm.h"
 
 /*optional parameters*/
 enum opt_channels opt_ch;

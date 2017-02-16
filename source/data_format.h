@@ -1,7 +1,7 @@
 #ifndef DATA_FORMAT_H
 #define DATA_FORMAT_H 1
 
-#include <stdint.h>
+#include "code_2_pcm.h"
 
 /*data format for wave file*/
 struct riff_chunk

@@ -1,11 +1,5 @@
-#ifndef WAV_OPTIONS_NAME_H
-#define WAV_OPTIONS_NAME_H 1
-
-/**********************************
-
-		consts
-
- **********************************/
+#ifndef CODE_2_PCM_H
+#define CODE_2_PCM_H 1
 
 /*app infomations*/
 #define INFO_AUTHOR  "Xiangsong Guan"
@@ -51,12 +45,6 @@
 /*default output file (wave file)'s path*/
 #define DEFAULT_OUTPUT_PATH "o.wav"
 
-/**********************************************
-
-		functions
-
- **********************************************/
-
 /*some macro to save lines*/
 #define FUNC_USAGE_AND_RETURN(msg) \
 {                                  \
@@ -70,4 +58,13 @@
 	break;                         \
 }
 
-#endif
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#include "wav_options_value.h"
+#include "data_format.h"
+#include "fill_file.h"
+#include "interpret_cmd.h"
+
+#endif /*CODE_2_PCM_H*/

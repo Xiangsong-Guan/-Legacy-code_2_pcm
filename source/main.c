@@ -1,9 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <include/macro_defines.h>
-#include <include/data_format.h>
-#include <api/fill_file.h>
-#include <api/interpret_cmd.h>
+#include "code_2_pcm.h"
 
 /*verify*/
 const char *verify = "#" INFO_AUTHOR "#" INFO_TILTE "#" INFO_TIME "#" INFO_VERIFY "#" INFO_VERSION;
@@ -37,7 +32,7 @@ int main(int argc, char **argv)
 
 	/*alloc space for input file*/
 	full_size = sou_size + format_header(&trgt_file, sou_size);
-	buf = calloc(full_size, 1ULL);
+	buf = (char *)calloc(full_size, 1ULL);
 
 	/*write the file's header*/
 	fwrite(&trgt_file, sizeof(struct wave_file), 1ULL, o_file);

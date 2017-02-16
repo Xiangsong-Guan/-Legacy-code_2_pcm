@@ -1,7 +1,4 @@
-#include <stdint.h>
-#include <include/macro_defines.h>
-#include <include/data_format.h>
-#include <api/interpret_cmd.h>
+#include "code_2_pcm.h"
 
 /*format the target file's header, and return the number of padding byte*/
 size_t format_header(struct wave_file *pwf, size_t i_size)
