@@ -40,7 +40,7 @@ static void usage(const char *msg)
 }
 
 /*return 0 if no problems. self print.*/
-static int assgin_options(const int parameters_cnt, const char **parameters, const char *o_path)
+static int assgin_options(const int parameters_cnt, const char **parameters, const char **o_path)
 {
 	char opt;
 	int i;
@@ -116,7 +116,7 @@ static int assgin_options(const int parameters_cnt, const char **parameters, con
 					}
 					break;
 				case OUTPUT_PATH:
-					FUNC_ASS_AND_BREAK(o_path, pc);
+					FUNC_ASS_AND_BREAK(*o_path, pc);
 				default:
 					FUNC_USAGE_AND_RETURN("Wrong option!");
 			}
@@ -137,12 +137,12 @@ static int assgin_options(const int parameters_cnt, const char **parameters, con
 /*set the options according to cmd parameters, return 0 if no problems. self print.*/
 int interpret_parameter(const int parameters_cnt, const char **parameters)
 {
-	const char *o_path, *i_path;
+  const char *o_path[1], *i_path;
 
 	opt_ch = mono;
 	opt_sps = telephone;
 	opt_bps = low;
-	o_path = DEFAULT_OUTPUT_PATH;
+	*o_path = DEFAULT_OUTPUT_PATH;
 
 	/*check the cmd is valid or not*/
 	if(parameters_cnt == 1)
@@ -179,7 +179,7 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 	}
 
 	/*output file is already existed? writable?*/
-	o_file = fopen(o_path, "rb");
+	o_file = fopen(*o_path, "rb");
 	if (o_file != NULL)
 	{
 	  fclose(o_file);
@@ -191,7 +191,7 @@ int interpret_parameter(const int parameters_cnt, const char **parameters)
 	    return ERROR;
 	  }
 	}
-	o_file = fopen(o_path, "wb");
+	o_file = fopen(*o_path, "wb");
 	if (o_file == NULL)
 	{
 	  perror("Output file: ");

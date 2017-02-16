@@ -3,14 +3,14 @@
 /*verify*/
 const char *verify = "#" INFO_AUTHOR "#" INFO_TILTE "#" INFO_TIME "#" INFO_VERIFY "#" INFO_VERSION;
 
-int main(int argc, char **argv)
+int main(const int argc, const char **argv)
 {
 	struct wave_file trgt_file;
 	size_t sou_size, full_size;
 	char *buf;
 	int return_msg;
 
-	return_msg = interpret_parameter(argc, (const char **)argv);
+	return_msg = interpret_parameter(argc, argv);
 	if(return_msg != SUCCESS)
 	{
 		return return_msg;

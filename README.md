@@ -1,6 +1,6 @@
 # code_2_pcm
 
-胡思乱想系列，将代码（一切文件）进行音频转换……
+胡��乱想系列，将代码（丢�切文件）进行音频转换…��1�7
 
 # 周边
 
@@ -10,7 +10,9 @@ minGW-w64 / win-x86_64 / ANSI C
 
 Encode your source code file to a pcm codec wave file, just for fun.
 
-code_2_pcm [options] <input_file_path>
+code_2_pcm [options] _input_file_path_
+
+EXAMPLE: `code_2_pcm -c s -s r -b n inputfile.someting`
 
 options:
 *  -h  print this usage.
